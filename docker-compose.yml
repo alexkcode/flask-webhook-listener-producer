@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    ports:
+      - '5672:5672'
+      - '8080:15672'
+
+  server:
+    build: server
+    volumes:
+      - ./server:/app
+    ports:
+      - '5000:5000'
