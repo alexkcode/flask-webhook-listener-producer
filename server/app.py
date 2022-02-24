@@ -17,8 +17,8 @@ def webhook_endpoint(queue):
     if request.method == 'POST':
         print('Webhook Received')
 
-    # data = request.get_json()
-    request_json = request.json
+    request_json = request.get_json()
+    request_json.update({'queue': queue})
     data = json.dumps(request_json,indent=4)
 
     credentials = pika.PlainCredentials(request.authorization.username, request.authorization.password)
@@ -37,9 +37,8 @@ def webhook_endpoint(queue):
         ))
     connection.close()
 
-    # print(" [x] Data put in queue: %s" % data)
     # return " [x] Data put in queue: %s" % data
-    return Response(status=200)
+    return Response(response='OK', status=200)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
