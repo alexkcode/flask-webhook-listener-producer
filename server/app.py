@@ -8,8 +8,8 @@ app = Flask(__name__)
 def index():
     return 'OK'
 
-@app.route('/webhook', methods=['POST'])
-def webhook_endpoint():
+@app.route('/webhook/<queue>', methods=['POST'])
+def webhook_endpoint(queue):
     """
     Endpoint for a webhook that immediately places message in MQ.
     """
@@ -21,13 +21,13 @@ def webhook_endpoint():
     request_json = request.json
     data = json.dumps(request_json,indent=4)
 
-    creds = pika.PlainCredentials(request.authorization.username, request.authorization.password)
-    connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672, '/', creds))
+    credentials = pika.PlainCredentials(request.authorization.username, request.authorization.password)
+    connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672, '/', credentials))
 
     channel = connection.channel()
     channel.exchange_declare(exchange='webhook_exchange', durable=True)
-    channel.queue_declare(queue='webhook_queue', durable=True)
-    channel.queue_bind('webhook_queue', 'webhook_exchange', routing_key='webhook')
+    channel.queue_declare(queue=queue, durable=True)
+    channel.queue_bind(queue, 'webhook_exchange', routing_key='webhook')
     channel.basic_publish(
         exchange='webhook_exchange',
         routing_key='webhook',
