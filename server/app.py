@@ -1,8 +1,11 @@
 import json
 import pika
-from flask import Flask, request, abort, Response
+from flask import Flask, request, abort, Response, logging
 
 app = Flask(__name__)
+
+LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) '
+              '-35s %(lineno) -5d: %(message)s')
 
 @app.route('/')
 def index():
@@ -37,8 +40,9 @@ def webhook_endpoint(queue):
         ))
     connection.close()
 
-    return " [x] Data put in queue: %s" % data
-    # return Response(response='OK', status=200)
+    # return " [x] Data put in queue: %s" % data
+    app.logger.info(" [x] Data put in queue: %s" % data)
+    return Response(response='OK', status=200)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
