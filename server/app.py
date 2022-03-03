@@ -18,9 +18,11 @@ def webhook_endpoint(queue):
     """
 
     if request.method == 'POST':
-        print('Webhook Received')
+        app.logger.info('Webhook Received')
+        app.logger.info(request.get_data())
 
-    request_json = request.get_json()
+    # request_json = request.get_data()
+    request_json = request.get_json(force=True)
     request_json.update({'queue': queue})
     data = json.dumps(request_json)
 
