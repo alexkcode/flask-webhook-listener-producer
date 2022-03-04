@@ -1,0 +1,6 @@
+Flask
+flask-talisman
+gunicorn
+cryptography
+pyOpenSSL
+Flask_BasicAuth
