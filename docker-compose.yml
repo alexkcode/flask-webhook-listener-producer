@@ -7,11 +7,39 @@ services:
     ports:
       - '5672:5672'
       - '8080:15672'
+  #   networks:
+  #     - my-network
 
-  server:
-    image: 'alexkcode/webhook-flask-listener:latest'
-    build: server
+  # nginx:
+  #   image: nginx:1.15-alpine
+  #   depends_on:
+  #     - app
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./data/nginx:/etc/nginx/conf.d
+  #     - ./data/certbot/conf:/etc/letsencrypt
+  #     - ./data/certbot/www:/var/www/certbot
+  #   networks:
+  #     - my-network
+
+  # certbot:
+  #   image: certbot/certbot
+  #   volumes:
+  #     - ./data/certbot/conf:/etc/letsencrypt
+  #     - ./data/certbot/www:/var/www/certbot
+
+  app:
+    # image: 'alexkcode/webhook-flask-listener:latest'
+    build: app
     volumes:
-      - ./server:/app
+      # - ./server:/app
+      - ./app:/app
     ports:
       - '5000:5000'
+    environment:
+      # - FLASK_APP=server/app.py
+      - FLASK_APP=app/main.py
+      - FLASK_DEBUG=1
+      - 'RUN=flask run --host=0.0.0.0 --port=5000'
