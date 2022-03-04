@@ -9,11 +9,11 @@ app = Flask(__name__)
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) '
               '-35s %(lineno) -5d: %(message)s')
 
-@app.before_request
-def before_request():
-    url = request.url.replace('https://', 'http://', 1)
-    code = 301
-    return redirect(url)
+# @app.before_request
+# def before_request():
+#     url = request.url.replace('https://', 'http://', 1)
+#     code = 301
+#     return redirect(url)
 
 @app.route('/')
 def index():
