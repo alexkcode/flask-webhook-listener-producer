@@ -1,5 +1,0 @@
-Flask
-flask-talisman
-gunicorn
-cryptography
-pyOpenSSL
