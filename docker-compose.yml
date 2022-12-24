@@ -7,8 +7,6 @@ services:
     ports:
       - '5672:5672'
       - '8080:15672'
-  #   networks:
-  #     - my-network
 
   # nginx:
   #   image: nginx:1.15-alpine
@@ -39,7 +37,6 @@ services:
     ports:
       - '5000:5000'
     environment:
-      # - FLASK_APP=server/app.py
       - FLASK_APP=app/main.py
       - FLASK_DEBUG=1
       - 'RUN=flask run --host=0.0.0.0 --port=5000'
