@@ -9,7 +9,7 @@
 
 ## Code Deployment
 
-- Run `docker-compose build & up -d` to build the container and run the container in background mode.
+- Run `docker-compose up -d` to build the container and run the container in background mode.
 - Go to `http://localhost:5000` in a web browser. If it shows "OK" the code has been deployed successfully.
 
 # Message Brokering
